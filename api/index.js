@@ -3,9 +3,12 @@ import mongoose from 'mongoose';
 import dotenv from 'dotenv';
 dotenv.config();
 import userRouter from'./routes/user.route.js';
+import authRouter from './routes/auth.route.js';
 
-const app =express();
-mongoose.connect(process.env.MONGO)
+
+mongoose
+.connect(process.env.MONGO)
+
 .then(()=> {
     console.log('connected to MongoDB!')
 })
@@ -15,14 +18,8 @@ mongoose.connect(process.env.MONGO)
 
 });
 
-
-
-
-app.get('/api/user/test', (req, res) => {
-    res.send('api router is working');
-  });
-  
-
+const app = express();
+app.use(express.json());
 
 
  
@@ -30,9 +27,12 @@ app.get('/api/user/test', (req, res) => {
 app.listen(3000, () => {
 
     console.log('Server is running on port 3000!');
-}
+} 
 
 );
 
 //api router
-app.use("/app/user",userRouter);
+app.use('/api/user', userRouter);
+app.use('/api/auth',authRouter);
+
+
